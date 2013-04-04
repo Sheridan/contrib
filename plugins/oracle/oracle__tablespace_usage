@@ -94,6 +94,7 @@ if (exists $ARGV[0]) {
                 print "$datname.type GAUGE\n";
 	        print "$datname.draw LINE2\n";
 	}
+	END { $dbh->disconnect(); }
 	exit 0;
     }
 }
@@ -111,3 +112,5 @@ while ( my ($datname,$free,$total,$prc) = $sth_curr->fetchrow_array ) {
 	my $in_use = 100 - ($free/$total)*100;
 	print "$datname.value $in_use\n";
 }
+END { $dbh->disconnect(); }
+

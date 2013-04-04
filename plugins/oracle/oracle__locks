@@ -150,6 +150,8 @@ while ( ($type, $count) = $sth->fetchrow ()) {
 	if ( $type eq "XR" )  {$XR=$count} ;
 	if ( $type eq "TS" )  {$TS=$count} ;
 }
+END { $dbh->disconnect(); }
+
 print "RS.value $RS\n";
 print "RE.value $RE\n";
 print "S.value $S\n";

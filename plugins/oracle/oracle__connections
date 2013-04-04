@@ -118,36 +118,41 @@ if (exists $ARGV[0]) {
         print "total.type GAUGE\n";
         print "total.warning $warning\n";
         print "total.critical $critical\n";
-        print "max_connections.label Max. connections\n";
-        print "max_connections.info Max. connections\n";
-        print "max_connections.type GAUGE\n";
+#        print "max_connections.label Max. connections\n";
+#        print "max_connections.info Max. connections\n";
+#        print "max_connections.type GAUGE\n";
+        END { $dbh->disconnect(); }
 	exit 0;
     }
 }
 
 
-my $sql_max = "select value from v\$parameter where name = 'sessions'";
-my $sth_max = $dbh->prepare($sql_max);
-$sth_max->execute();
-my ($max_connections) = $sth_max->fetchrow();
+#my $sql_max = "select value from v\$parameter where name = 'sessions'";
+#my $sth_max = $dbh->prepare($sql_max);
+#$sth_max->execute();
+#my ($max_connections) = $sth_max->fetchrow();
 
-if ( $showusers ) {
+if ( $showusers ) 
+{
 	my $sql = "select username, count(username) from v\$session where username  is not null group by username";
 	my $sth = $dbh->prepare($sql);
 	$sth->execute();
 	my $total = 0;
-	while ( my ($datname,$curr_conn) = $sth->fetchrow_array ) {
+	while ( my ($datname,$curr_conn) = $sth->fetchrow_array ) 
+	{
 		print "$datname.value $curr_conn\n"; 
 		$total = $total+$curr_conn;
 	}	
 	print "total.value $total\n";
-} else {
+} 
+else 
+{
 	my $sql = "select count(username) from v\$session where username  is not null";
 	my $sth = $dbh->prepare($sql);
 	$sth->execute();
 	my ($curr_conn) = $sth->fetchrow_array;
 	print "connections.value $curr_conn\n";
 }
+#print "max_connections.value $max_connections\n";
 
-print "max_connections.value $max_connections\n";
-
+END { $dbh->disconnect(); }
