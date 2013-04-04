@@ -69,11 +69,11 @@ my $graphs =
 	    'oid' => '1.3.6.1.4.1.318.1.1.1.4.2.1.0',
 	    'field_data' =>
 	    {
-		'label' => 'Output',
-		'type'  => 'GAUGE',
-		'info'  => 'Output voltage',
-		'color' => '009BCC',
-		'draw'  => 'AREA'
+		'label'  => 'Output',
+		'type'   => 'GAUGE',
+		'info'   => 'Output voltage',
+		'colour' => '439400',
+		'draw'   => 'LINE2'
 	    }
 	},
 	'input' => 
@@ -81,11 +81,11 @@ my $graphs =
 	    'oid' => '1.3.6.1.4.1.318.1.1.1.3.2.1.0',
 	    'field_data' =>
 	    {
-		'label' => 'Input',
-		'type'  => 'GAUGE',
-		'info'  => 'Input voltage',
-		'color' => 'FFCC99',
-		'draw'  => 'AREA'
+		'label'  => 'Input',
+		'type'   => 'GAUGE',
+		'info'   => 'Input voltage',
+		'colour' => '94002D',
+		'draw'   => 'LINE2'
 		
 	    }
 	},
@@ -94,11 +94,11 @@ my $graphs =
 	    'oid' => '1.3.6.1.4.1.318.1.1.1.3.2.2.0',
 	    'field_data' =>
 	    {
-		'label' => 'Input maximum',
-		'type'  => 'GAUGE',
-		'info'  => 'Maximum input voltage',
-		'color' => 'FF0033',
-		'draw'  => 'LINE1'
+		'label'  => 'Input maximum',
+		'type'   => 'GAUGE',
+		'info'   => 'Maximum input voltage',
+		'colour' => '8EF13C',
+		'draw'   => 'LINE1'
 	    }
 	},
 	'min_input'  => 
@@ -106,11 +106,11 @@ my $graphs =
 	    'oid' => '1.3.6.1.4.1.318.1.1.1.3.2.3.0',
 	    'field_data' =>
 	    {
-		'label' => 'Input minimum',
-		'type'  => 'GAUGE',
-		'info'  => 'Minimum input voltage',
-		'color' => '66FF00',
-		'draw'  => 'LINE1'
+		'label'  => 'Input minimum',
+		'type'   => 'GAUGE',
+		'info'   => 'Minimum input voltage',
+		'colour' => 'A9F16C',
+		'draw'   => 'LINE1'
 	    }
 	},
 	'high_transfer_input'  => 
@@ -118,10 +118,11 @@ my $graphs =
 	    'oid' => '1.3.6.1.4.1.318.1.1.1.5.2.2.0',
 	    'field_data' =>
 	    {
-		'label' => 'High transfer input',
-		'type'  => 'GAUGE',
-		'info'  => 'High transfer input',
-		'draw'  => 'LINE1'
+		'label'  => 'High transfer input',
+		'type'   => 'GAUGE',
+		'info'   => 'High transfer input',
+		'colour' => 'F13C73',
+		'draw'   => 'LINE1'
 	    }
 	},
 	'low_transfer_input'  => 
@@ -129,10 +130,11 @@ my $graphs =
 	    'oid' => '1.3.6.1.4.1.318.1.1.1.5.2.3.0',
 	    'field_data' =>
 	    {
-		'label' => 'Low transfer input',
-		'type'  => 'GAUGE',
-		'info'  => 'Low transfer input',
-		'draw'  => 'LINE1'
+		'label'  => 'Low transfer input',
+		'type'   => 'GAUGE',
+		'info'   => 'Low transfer input',
+		'colour' => 'F16D95',
+		'draw'   => 'LINE1'
 	    }
 	}
     }
@@ -142,7 +144,7 @@ my $graphs =
     'graph' =>
     {
 	'title'    => 'Frequency, %s [%s]',
-	'args'     => '--base 1000 -l 0 -u 100',
+	'args'     => '--base 1000 -l 35 -u 65',
 	'vlabel'   => 'Hz',
 	'category' => 'ups',
 	'info'     => 'This graph shows the frequency (Hz) of %s [%s]',
@@ -257,7 +259,7 @@ my $graphs =
 	'vlabel'   => 'Status change',
 	'category' => 'ups',
 	'info'     => 'This graph shows the status of %s [%s]',
-	'order' => 'unk onl obt osb tsl sbp off rbt swb hfb spr ost state'
+	'order'    => 'unk onl obt osb tsl sbp off rbt swb hfb spr ost state'
     },
     'fields' =>
     {
@@ -266,13 +268,13 @@ my $graphs =
 	    'oid' => '1.3.6.1.4.1.318.1.1.1.4.1.1.0',
 	    'field_data' =>
 	    {
-		'label' => 'Status',
-		'type'  => 'GAUGE',
-		'info'  => 'Raw status',
-		'color' => '222222',
-		'draw'  => 'LINE3',
-		'min'   => '1',
-		'max'   => '12'
+		'label'  => 'Status',
+		'type'   => 'GAUGE',
+		'info'   => 'Raw status',
+		'colour' => '222222',
+		'draw'   => 'LINE3',
+		'min'    => '1',
+		'max'    => '12'
 	    }
 	},
 	'unk' => { 'field_data' => { 'label' => 'Unknown'                 , 'type'  => 'GAUGE', 'draw'  => 'AREA' } },
@@ -422,7 +424,7 @@ my $graphs =
 
 };
 
-my $info = {'model'  => '1.3.6.1.4.1.318.1.1.1.1.1.1.0', 'serial' => '1.3.6.1.4.1.318.1.1.1.1.2.3.0'};
+my $info = {'model' => '1.3.6.1.4.1.318.1.1.1.1.1.1.0', 'serial' => '1.3.6.1.4.1.318.1.1.1.1.2.3.0'};
 
 sub get_snmp_value
 {
@@ -434,7 +436,7 @@ sub get_snmp_value
 
 if ($ARGV[0] and $ARGV[0] eq "config")
 {
-    my $model = get_snmp_value($info->{'model'});
+    my $model  = get_snmp_value($info->{'model'} );
     my $serial = get_snmp_value($info->{'serial'});
     for my $graph_name (keys(%{$graphs}))
     {
