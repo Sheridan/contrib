@@ -146,6 +146,7 @@ if ($ARGV[0] and $ARGV[0] eq "config")
 {
     for my $Type (keys(%config))
     {
+	print "multigraph megaraid.$Type\n";
 	print "graph_title $config{$Type}->{title}\n";
 	print "graph_vtitle $config{$Type}->{vtitle}\n";
 	print "graph_args $config{$Type}->{graph_args}\n";
