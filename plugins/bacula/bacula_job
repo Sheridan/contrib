@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 
 # Copyright (C) 2009 Andreas Thienemann <andreas@bawue.net>
 #
@@ -82,16 +82,17 @@ def parse(clients):
 	for client in clients:
 		query_str = query_str + "status\n3\n" + client[1] + "\n"
 	query_str = query_str + "quit"
+	print query_str
 
 	bconsole = subprocess.Popen("bconsole", stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 	stdout, stderr = bconsole.communicate(query_str)
-
+#	print stdout
 	input = stdout.split("\n")
 
 	jobstats = []
 
 	for line, pos in zip(input, range(0, len(input))):
-
+		print line
 		# Get the client name
 		if line.startswith("Connecting to Client "):
 			# client_name = input[pos].split()[3].split(".")[0]
@@ -102,6 +103,7 @@ def parse(clients):
 		# Get the current bytes
 		if line.endswith(" is running."):
 			bytes = long(input[pos+2].split()[1].split("=")[1].replace(",", ""))
+			#print bytes;
 			jobstats.append([client_name, client_clean, bytes])
 
 	job_dict = {}
