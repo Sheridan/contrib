@@ -1,4 +1,4 @@
-#! /usr/local/bin/perl -w
+#! /usr/bin/perl -w
 # anders@fupp.net, 2007-09-19
 # If you found this plugin useful, let me know. :-)
 #
@@ -33,25 +33,29 @@
 # the plugins-dir.
 
 # --- configuration ---
-$ENV{'ORACLE_HOME'} = '/foo/oracle/10.2';
-$ENV{'LD_LIBRARY_PATH'} = '/foo/oracle/10.2/lib';
-$ENV{'HOME'} = '/home/munin';
+#$ENV{'ORACLE_HOME'} = '/foo/oracle/10.2';
+#$ENV{'LD_LIBRARY_PATH'} = '/foo/oracle/10.2/lib';
+#$ENV{'HOME'} = '/home/munin';
+
+use strict;
+use warnings;
+use Munin::Plugin;
+
+need_multigraph();
+
+my $dbhost = $ENV{'dbhost'} || '127.0.0.1';
+my $dbname = $ENV{'dbname'} || 'orl1';
+my $dbuser = $ENV{'dbuser'} || 'oracle';
+my $dbport = $ENV{'dbport'} || '1521';
+my $dbpw   = $ENV{'dbpass'} || '';
 
 my $dbdriver="Oracle";
-my $dbhost="localhost";
-my $dbuser="myuser";
-my $dbpw="mypass";
-my $dbname="mydb";
 # --- end, configuration ---
-
-my $name = $0;
-# Remove extra chars
-$name =~ s@^.*?(\w+)$@$1@;
-# Remove base name for plugin
-$name =~ s@^oracle_@@;
 
 use DBI;
 $|=1;  # Flush stdout after every write.
+
+my ($dbh, $dbq);
 
 sub dbconnect {
 	if ($dbh = DBI->connect("dbi:$dbdriver:$dbname",$dbuser,$dbpw,{ PrintError => 1 })) {
@@ -90,6 +94,7 @@ sub getvalues {
 		$dbq = $dbh->prepare('select * from v$sysmetric');
 		$dbq->execute;
 		while ( my $row = $dbq->fetchrow_hashref() ) {
+			#print $row->{METRIC_NAME} . "\n";
 			if ($row->{METRIC_NAME} eq "$metric") {
 				my $val = $row->{VALUE};
 				$val =~ s@,@.@;
@@ -107,8 +112,15 @@ sub getvalues {
 	}
 }
 
+my $graphs = 
+{
+    ''
+};
+
+listvalues(); exit 0;
+
 sub printconfig {
-	if ($name eq "transactions") {
+		print "multigraph ${dbname}_transactions\n";
 		print "graph_title User transactions\n";
 		print "graph_vlabel transactions per second\n";
 		print "graph_category Oracle\n";
@@ -117,7 +129,8 @@ sub printconfig {
 		print "transactions.label transactions\n";
 		print "transactions.type GAUGE\n";
 		print "transactions.graph yes\n";
-	} elsif ($name eq "indexscans") {
+
+		print "multigraph ${dbname}_indexscans\n";
 		print "graph_title Full index scans\n";
 		print "graph_vlabel indexscans per second\n";
 		print "graph_category Oracle\n";
@@ -126,19 +139,13 @@ sub printconfig {
 		print "indexscans.label indexscans\n";
 		print "indexscans.type GAUGE\n";
 		print "indexscans.graph yes\n";
-	} else {
-		print "No config for $name.\n";
-	}
 }
 
 sub dovalues {
-	if ($name eq "transactions") {
+		print "multigraph ${dbname}_transactions\n";
 		getvalues("User Transaction Per Sec", "transactions");
-	} elsif ($name eq "indexscans") {
+		print "multigraph ${dbname}_indexscans\n";
 		getvalues("Full Index Scans Per Sec", "indexscans");
-	} else {
-		listvalues;
-	}
 }
 
 if ($ARGV[0] && $ARGV[0] eq "autoconf") {
