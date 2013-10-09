@@ -77,6 +77,7 @@ my $graphs =
 	{
 	    'in_octets'		=>
 	    {
+		'label'	=> 'Port %s in',
 		'type'	=> 'DERIVE',
 		'graph'	=> 'no',
 		'cdef'	=> 'in_octets,8,*',
@@ -107,6 +108,7 @@ my $graphs =
 	{
 	    'in_unicast'	=>
 	    {
+		'label'	=> 'Port %s in',
 		'type'	=> 'DERIVE',
 		'graph'	=> 'no',
 		'cdef'	=> 'in_unicast,8,*',
@@ -137,6 +139,7 @@ my $graphs =
 	{
 	    'in_discards'	=>
 	    {
+		'label'	=> 'Port %s in',
 		'type'	=> 'DERIVE',
 		'graph'	=> 'no',
 		'min'	=> '0',
@@ -165,6 +168,7 @@ my $graphs =
 	{
 	    'in_errors'	=>
 	    {
+		'label'	=> 'Port %s in',
 		'type'	=> 'DERIVE',
 		'graph'	=> 'no',
 		'min'	=> '0',
@@ -187,12 +191,13 @@ my $graphs =
 	    'info'	=> 'Switch errors by ports'
 	}
     },
-    'status' =>
+    'switchstatus' =>
     {
 	'fields' 	=> 
 	{
 	    'speed'	=>
 	    {
+		'label'	=> 'Port %s speed',
 		'type'	=> 'DERIVE',
 		'graph'	=> 'no',
 		'min'	=> '0',
@@ -279,7 +284,7 @@ for my $graph_name (sort(keys(%{$graphs})))
     {
 	for my $field (sort(keys(%{$graphs->{$graph_name}{'fields'}})))
 	{
-	    print(sprintf("p%02d%s.value %s\n", $index, $field, $data->{$index}{$field}));
+	    print(sprintf("p%02d%s.value %s\n", $index, $field, exists($data->{$index}{$field}) ? $data->{$index}{$field} : 'nan'));
 	}
     }
     #print "\n";
